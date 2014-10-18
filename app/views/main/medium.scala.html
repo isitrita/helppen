@@ -1,0 +1,90 @@
+@(cards : Seq[model.card.Card])
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">HELP PEN</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)">Project 1</a></li>
+                    <li><a href="javascript:void(0)">Project 2</a></li>
+                    <li><a href="javascript:void(0)">Project 3</a></li>
+                </ul>
+            </li>
+            <li><a href="@routes.Auth.logout">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid todo-item-panel">
+    <div data-role="listview" data-inset="true" data-theme="d" id="sortable" class="col-md-12 col-xs-10">
+        @import model.card.{Note, Event, Deal}
+        @import model.utils.DateUtils
+        @for(card <- cards){
+            @card match {
+              case Note(id, projectId, name, text, priority, tags, status, created, modified) => {
+                  <div class="row" id="card-@id">
+                      <div class="well todo-item">
+                          <div class="container-fluid">
+                              <div class="col-md-10">
+                              @text
+                              </div>
+                              <div class="col-md-2">
+                                  <div class="pull-right">
+                                      <i class="icon icon-material-more-vert"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              }
+              case Event(id, projectId, name, text, priority, tags, status, created, modified, startDate, startTime, duration) => {
+                  <div class="row" id="card-@id">
+                      <div class="well todo-item">
+                          <div class="container-fluid">
+                              <div class="col-md-10">
+                                <div class="row">
+                                    <h6>@DateUtils.dateToString(startDate) @DateUtils.timeToString(startTime)</h6>
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label> <input type="checkbox"/> @text </label>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                  <div class="pull-right big-icons">
+                                      <i class="icon icon-material-more-vert"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              }
+              case Deal(id, projectId, name, text, priority, tags, status, created, modified, duration) => {
+                  <div class="row" id="card-@id">
+                      <div class="well todo-item">
+                          <div class="container-fluid">
+                              <div class="col-md-10">
+                                @text
+                              </div>
+                              <div class="col-md-2">
+                                  <div class="pull-right">
+                                      <i class="icon icon-material-more-vert"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              }
+              case _ => {}
+          }
+        }
+    </div>
+</div>

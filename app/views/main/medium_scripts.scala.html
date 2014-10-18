@@ -1,0 +1,15 @@
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.0-alpha.2/jquery.mobile-1.4.0-alpha.2.min.js"></script>
+<script src="@routes.Assets.at("javascripts/jquery.ui.touch-punch.min.js")"></script>
+<script>
+    $(document).bind('pageinit', function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+        <!-- Refresh list to the end of sort to have a correct display -->
+        $( "#sortable" ).bind( "sortstop", function(event, ui) {
+            $('#sortable').listview('refresh');
+        });
+//        ugly hack
+        $("div.ui-loader > h1").hide()
+    });
+</script>
